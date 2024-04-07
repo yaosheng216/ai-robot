@@ -1,17 +1,12 @@
 # AI-Robot
 
 #### 介绍
-AI Agent
+AI Agent使用ChatGPT座位底层大模型，通过LangChain实现个性化AI模型开发
 
 #### 软件架构
 软件架构说明
-
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1. 采用ChatGPT座位底层大模型
+2. 采用LangChain实现个性化AI模型开发
 
 #### 参与贡献
 
