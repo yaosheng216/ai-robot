@@ -9,7 +9,7 @@ openai.api_base = os.getenv("OPENAI_API_BASE")
 
 
 def main():
-    messages = [{"role": "user", "content": "使用Java语言实现快速排序"}]
+    messages = [{"role": "user", "content": "怎么替代领导"}]
     res = openai.ChatCompletion.create(
         model="gpt-4-1106-preview",
         messages=messages,
