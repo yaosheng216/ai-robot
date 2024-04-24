@@ -243,6 +243,7 @@ def chat(query: str, background_tasks: BackgroundTasks):
 
 @app.post("/add_urls")
 def add_urls(URL: str):
+    print("url is:", URL)
     loader = WebBaseLoader(URL)
     docs = loader.load()
     docments = RecursiveCharacterTextSplitter(
@@ -250,7 +251,7 @@ def add_urls(URL: str):
         chunk_overlap=50,
     ).split_documents(docs)
     # 引入向量数据库
-    qdrant = Qdrant.from_documents(
+    Qdrant.from_documents(
         docments,
         OpenAIEmbeddings(model="text-embedding-3-small"),
         path="D:\soft\ChatGPT\demo\local_qdrand",
@@ -277,6 +278,7 @@ async def websocket_endpoint(websocket: WebSocket):
         while True:
             data = await websocket.receive_text()
             await websocket.send_text(f"Message text was: {data}")
+            print("socket send data:", data)
     except WebSocketDisconnect:
         print("Connection closed")
         await websocket.close()
