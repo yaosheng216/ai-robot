@@ -11,6 +11,7 @@ import os
 import asyncio
 import uuid
 from langchain_community.vectorstores import Qdrant
+import uvicorn
 from Mytools import *
 from dotenv import load_dotenv
 
@@ -198,7 +199,7 @@ class Master:
         print("情绪判断结果:", result)
         return result
 
-    # 这个函数不需要返回值，只是触发了语音合成
+    # 这个函数不需要返回值，只是触发了异步语音合成
     def background_voice_synthesis(self, text: str, uid: str):
         asyncio.run(self.get_voice(text, uid))
 
@@ -225,6 +226,7 @@ class Master:
         if response.status_code == 200:
             print(">>>>>>>> 语音内容生成成功 <<<<<<<<")
             output_folder = "D:/soft/ChatGPT/demo/voice"
+            # 如果文件夹不存在，则创建文件夹
             if not os.path.exists(output_folder):
                 os.makedirs(output_folder)
             output_file_path = os.path.join(output_folder, f"{uid}.mp3")
@@ -246,7 +248,8 @@ def chat(query: str, background_tasks: BackgroundTasks):
     return {"msg": msg, "id": unique_id}
 
 
-@app.post("/add_urls")
+# 根据url进行数据加载，并存入向量数据库
+@app.post("/add_url")
 def add_urls(URL: str):
     loader = WebBaseLoader(URL)
     docs = loader.load()
@@ -289,5 +292,4 @@ async def websocket_endpoint(websocket: WebSocket):
 
 
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

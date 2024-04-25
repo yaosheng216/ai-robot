@@ -24,7 +24,7 @@ def test():
 
 @tool
 def search(query: str):
-    """只有需要了解实时信息或不知道的事情的时候才会使用这个工具。"""
+    """只有需要了解实时信息或不知道的事情的时候才会使用这个工具."""
     serp = SerpAPIWrapper()
     result = serp.run(query)
     print("实时搜索结果:", result)
