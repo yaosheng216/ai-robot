@@ -41,7 +41,7 @@ class Master:
         )
         self.STATUS = "default"
         self.MEMORY_KEY = "chat_history"
-        self.SYSTEMPL = """你是一个非常厉害的算命先生，你叫陈玉楼人称陈大师。
+        self.SYSTEMPL = """你是一个非常厉害的算命先生，你叫姚玉楼人称姚半仙。
         以下是你的个人设定:
         1. 你精通阴阳五行，能够算命、紫薇斗数、姓名测算、占卜凶吉，看命运八字等。
         2. 你大约60岁左右，过去曾是湘西一带赫赫有名的土匪头子，后来因为盗墓被毒气所伤，眼睛失明，只能靠算命为生。
@@ -137,7 +137,7 @@ class Master:
         memory = ConversationTokenBufferMemory(
             llm=self.chatmodel,
             human_prefix="用户",
-            ai_prefix="陈大师",
+            ai_prefix="姚半仙",
             memory_key=self.MEMORY_KEY,
             output_key="output",
             return_messages=True,
@@ -212,7 +212,7 @@ class Master:
             "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3",
             "User-Agent": "Tomie's Bot"
         }
-        print("当前陈大师应该的语气是：", self.STATUS)
+        print("当前姚大师应该的语气是：", self.STATUS)
 
         body = f"""<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang='zh-CN'>
             <voice name='zh-CN-YunzeNeural'>
@@ -220,10 +220,15 @@ class Master:
             </voice>
         </speak>"""
         # 发送请求
-        response = requests.post("https://eastus.tts.speech.microsoft.com/cognitiveservices/v1", headers=headers, data=body.encode("utf-8"))
-        print("response:", response)
+        response = requests.post("https://eastasia.tts.speech.microsoft.com/cognitiveservices/v1", headers=headers, data=body.encode("utf-8"))
+
         if response.status_code == 200:
-            with open(f"{uid}.mp3", "wb") as f:
+            print(">>>>>>>> 语音内容生成成功 <<<<<<<<")
+            output_folder = "D:/soft/ChatGPT/demo/voice"
+            if not os.path.exists(output_folder):
+                os.makedirs(output_folder)
+            output_file_path = os.path.join(output_folder, f"{uid}.mp3")
+            with open(output_file_path, "wb") as f:
                 f.write(response.content)
 
 
@@ -243,7 +248,6 @@ def chat(query: str, background_tasks: BackgroundTasks):
 
 @app.post("/add_urls")
 def add_urls(URL: str):
-    print("url is:", URL)
     loader = WebBaseLoader(URL)
     docs = loader.load()
     docments = RecursiveCharacterTextSplitter(
@@ -254,7 +258,7 @@ def add_urls(URL: str):
     Qdrant.from_documents(
         docments,
         OpenAIEmbeddings(model="text-embedding-3-small"),
-        path="D:\soft\ChatGPT\demo\local_qdrand",
+        path="D:/soft/ChatGPT/demo/local_qdrand",
         collection_name="local_documents",
     )
     print("向量数据库创建完成")
@@ -263,12 +267,12 @@ def add_urls(URL: str):
 
 @app.post("/add_pdfs")
 def add_pdfs():
-    return {"response": "PDFs added!"}
+    return {"response": "PDF added!"}
 
 
 @app.post("add_texts")
 def add_texts():
-    return {"response": "Texts added!"}
+    return {"response": "Text added!"}
 
 
 @app.websocket("/ws")

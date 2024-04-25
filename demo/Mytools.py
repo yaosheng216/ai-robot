@@ -49,7 +49,7 @@ def bazi_cesuan(query: str):
     """只有做八字排盘的时候才会使用这个工具,需要输入用户姓名和出生年月日时，如果缺少用户姓名和出生年月日时则不可用."""
     url = f"https://api.yuanfenju.com/index.php/v1/Bazi/cesuan"
     prompt = ChatPromptTemplate.from_template(
-        """你是一个参数查询助手，根据用户输入内容找出相关的参数并按json格式返回。JSON字段如下： -"api_ke":"K0I5WCmce7jlMZzTw7vi1xsn0", - "name":"姓名", - "sex":"性别，0表示男，1表示女，根据姓名判断", - "type":"日历类型，0农历，1公里，默认1"，- "year":"出生年份 例：1998", - "month":"出生月份 例 8", - "day":"出生日期，例：8", - "hours":"出生小时 例 14", - "minute":"0"，如果没有找到相关参数，则需要提醒用户告诉你这些内容，只返回数据结构，不要有其他的评论，用户输入:{query}""")
+        """你是一个参数查询助手，根据用户输入内容找出相关的参数并按json格式返回。JSON字段如下： -"api_key":"K0I5WCmce7jlMZzTw7vi1xsn0", - "name":"姓名", - "sex":"性别，0表示男，1表示女，根据姓名判断", - "type":"日历类型，0农历，1公里，默认1"，- "year":"出生年份 例：1998", - "month":"出生月份 例 8", - "day":"出生日期，例：8", - "hours":"出生小时 例 14", - "minute":"0"，如果没有找到相关参数，则需要提醒用户告诉你这些内容，只返回数据结构，不要有其他的评论，用户输入:{query}""")
     parser = JsonOutputParser()
     prompt = prompt.partial(format_instructions=parser.get_format_instructions())
     chain = prompt | ChatOpenAI(temperature=0) | parser
