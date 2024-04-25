@@ -172,7 +172,7 @@ class Master:
             print("summary:", summary)
             chat_message_history.clear()
             chat_message_history.add_message(summary)
-            print("总结后：", chat_message_history.messages)
+            print("总结后:", chat_message_history.messages)
         return chat_message_history
 
     def run(self, query):
@@ -198,14 +198,14 @@ class Master:
         print("情绪判断结果:", result)
         return result
 
+    # 这个函数不需要返回值，只是触发了语音合成
     def background_voice_synthesis(self, text: str, uid: str):
-        # 这个函数不需要返回值，只是触发了语音合成
         asyncio.run(self.get_voice(text, uid))
 
     async def get_voice(self, text: str, uid: str):
         print("text2speech", text)
         print("uid:", uid)
-        # 这里是使用微软TTS的代码
+        # 调用微软TTS服务生成语音
         headers = {
             "Ocp-Apim-Subscription-Key": msseky,
             "Content-Type": "application/ssml+xml",

@@ -35,7 +35,7 @@ def search(query: str):
 def get_info_from_local_db(query: str):
     """只有回答与2024年运势或者龙年运势相关的问题的时候，会使用这个工具，必须输入用户的生日."""
     client = Qdrant(
-        QdrantClient(path="/Users/tomiezhang/Desktop/shensuan-教学/bot/local_qdrand"),
+        QdrantClient(path="D:/soft/ChatGPT/demo/local_qdrand"),
         "local_documents",
         OpenAIEmbeddings(model="text-embedding-3-small"),
     )
@@ -56,6 +56,7 @@ def bazi_cesuan(query: str):
     data = chain.invoke({"query": query})
     print("八字查询结果:", data)
     result = requests.post(url, data=data)
+
     if result.status_code == 200:
         print(">>>>>>>> 返回数据 <<<<<<<<")
         print(result.json())
@@ -75,6 +76,7 @@ def yaoyigua():
     api_key = YUANFENJU_API_KEY
     url = f"https://api.yuanfenju.com/index.php/v1/Zhanbu/yaogua"
     result = requests.post(url, data={"api_key": api_key})
+
     if result.status_code == 200:
         print(">>>>>>>> 返回数据 <<<<<<<<")
         print(result.json())
@@ -97,6 +99,7 @@ def jiemeng(query: str):
     keyword = LLM.invoke(prompt_value)
     print("提取的关键词:", keyword)
     result = requests.post(url, data={"api_key": api_key, "title_zhougong": keyword})
+
     if result.status_code == 200:
         print(">>>>>>>> 返回数据 <<<<<<<<")
         print(result.json())
