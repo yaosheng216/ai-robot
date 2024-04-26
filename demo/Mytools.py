@@ -67,7 +67,7 @@ def bazi_cesuan(query: str):
         except Exception as e:
             return "八字查询失败,可以时你忘记询问用户姓名或者出生年月日时了。"
     else:
-        return "技术错误，请告诉用户稍后再试。"
+        return "技术错误，请告诉用户稍后再试"
 
 
 @tool
@@ -85,7 +85,7 @@ def yaoyigua():
         print("卦图片:", image)
         return returnstring
     else:
-        return "技术错误，请告诉用户稍后再试。"
+        return "技术错误，请告诉用户稍后再试"
 
 
 @tool

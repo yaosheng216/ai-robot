@@ -1,6 +1,6 @@
 version: '3'
-services:
 
+services:
   redis-server:
     image: redis:latest
     command: redis-server --requirepass 1234567
