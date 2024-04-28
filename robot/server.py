@@ -24,7 +24,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 @tool
 def search(query: str):
     """只有需要了解实时信息或不知道的事情的时候才会使用这个工具，需要传入要搜索的内容。"""
-    print("search query:", query)
     serp = SerpAPIWrapper()
     result = serp.run(query)
     print("实时搜索结果:", result)
@@ -162,7 +161,7 @@ class Master:
             # 清理缓存原有对话记录
             chat_message_history.clear()
             chat_message_history.add_message(summary)
-            print("总结后：", chat_message_history.messages)
+            print("总结后:", chat_message_history.messages)
         return chat_message_history
 
     def chat(self, query):

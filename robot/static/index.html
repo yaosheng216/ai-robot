@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My avatar</title>
+    <title>Avatar</title>
     <style>
         video {
             background: #222;
@@ -19,19 +19,19 @@
         var SpeechSDK;
         var peerConnection;
         var cogSvcRegin ="westus2";
-        var subscriptionKey = "f5e43ff";
-        var speakerHandel = function(avatarSynthesizer,msg,qingxu){
+        var subscriptionKey = "c64b56ab2b494b238516975263d768c0";
+        var speakerHandel = function(avatarSynthesizer,msg,status){
             var yinse = document.getElementById("voiceSelect").value;
             var spokenSsml = `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xmlns:mstts='http://www.w3.org/2001/mstts' xml:lang='zh-CN'>
                 <voice name='${yinse}'>
-                    <mstts:express-as style='${qingxu}' role='YoungAdultFemale' styledegreee='2'>${msg}</mstts:express-as>
+                    <mstts:express-as style='${status}' role='YoungAdultFemale' styledegreee='2'>${msg}</mstts:express-as>
                 </voice></speak>`;
-            avatarSynthesizer.speakSsmlAsync(spokenSsml).then((r)=>{
+            avatarSynthesizer.speakSsmlAsync(spokenSsml).then((r) => {
                 console.log("speakSsmlAsync result: "+r);
                 if(r.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted){
                     console.log("speakSsmlAsync completed!");
                 }else{
-                    console.log("speakSsmlAsync failed: "+r.errorDetails);
+                    console.log("speakSsmlAsync failed: " + r.errorDetails);
                     if(r.reason === SpeechSDK.ResultReason.Canceled){
                        var cancellationDetails = SpeechSDK.CancellationDetails.fromResult(r);
                        consonle.log(cancellationDetails.reason)
@@ -41,21 +41,21 @@
                     }
                 }
             }).catch((e)=>{
-                console.log("speakSsmlAsync failed: "+e);
+                console.log("speakSsmlAsync failed: " + e);
                 avatarSynthesizer.close();
             });
         }
         var chatWithAI = function(avatarSynthesizer){
             var chatInput = document.getElementById("chatInput");
             var chatText = chatInput.value;
-            console.log("输入的文本："+chatText);
+            console.log("输入的文本:" + chatText);
             var xhr = new XMLHttpRequest();
-            xhr.open("POST",`http://0.0.0.0:8000/chat?query=${chatText}`);
+            xhr.open("POST",`http://127.0.0.1:8000/chat?query=${chatText}`);
             xhr.addEventListener("readystatechange",function(){
                 if(this.readyState === 4){
                     var responseData = JSON.parse(this.responseText);
                     console.log("AI返回的文本："+responseData);
-                    speakerHandel(avatarSynthesizer,responseData[0].msg,responseData[0].qingxu);
+                    speakerHandel(avatarSynthesizer,responseData[0].msg,responseData[0].status);
                 }
             });
             xhr.send();
@@ -79,11 +79,11 @@
                     var iceServerUrl = responseData.Urls[0]
                     var iceServerUsername = responseData.Username;
                     var iceServerCredential = responseData.Password;
-                    //创建WebRTC连接
+                    //创建webRTC连接
                     console.log("creating WebRTC connection");
-                    console.log("ice server url: "+iceServerUrl);
-                    console.log("ice server username: "+iceServerUsername);
-                    console.log("ice server credential: "+iceServerCredential);
+                    console.log("ice server url: " + iceServerUrl);
+                    console.log("ice server username: " + iceServerUsername);
+                    console.log("ice server credential: " + iceServerCredential);
                     peerConnection = new RTCPeerConnection({
                         iceServers: [
                             {
@@ -93,7 +93,8 @@
                             }
                         ]
                     });
-                //抓取webtrc
+
+                //抓取webRTC
                 peerConnection.ontrack = function(event){
                     if(event.track.kind === "video"){
                         console.log("avatar video track received");
@@ -105,7 +106,6 @@
                         videoElement.playsInline = true;
                         document.body.appendChild(videoElement);
                     }
-
                     if(event.track.kind==="audio"){
                         console.log("avatar audio track received");
                         var  audioElement = document.createElement("audio");
@@ -116,7 +116,8 @@
                         document.body.appendChild(audioElement);
                     }
                 }
-                //webtrc连接状态
+
+                //webrtc连接状态
                 peerConnection.oniceconnectionstatechange = function(){
                     console.log("avatar ice connection state changed to "+peerConnection.iceConnectionState);
                     if(peerConnection.iceConnectionState === "connected"){
@@ -133,7 +134,7 @@
                 var avatarSynthesizer = new SpeechSDK.AvatarSynthesizer(speechConfing,avatarConfig);
 
                 //开始合成
-                avatarSynthesizer.startAvatarAsync(peerConnection).then((r)=>{
+                avatarSynthesizer.startAvatarAsync(peerConnection).then((r) => {
                     console.log("Avatar started ID:"+r.resultId)
                     console.log("avatar started");
                     //创建对话区域
@@ -156,6 +157,7 @@
                         <option value="th-TH-PremwadeeNeural">泰语</option>
                     `;
                     document.body.appendChild(voiceSelect);
+
                     //发送按钮
                     var sendButton = document.createElement("button");
                     sendButton.innerHTML = "Send";
