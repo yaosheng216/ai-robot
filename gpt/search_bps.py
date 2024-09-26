@@ -6,10 +6,10 @@ import pandas as pd
 
 app = Flask(__name__)
 
-app.config['MYSQL_HOST'] = 'inner-ssh-tunnel.gbank.team'
-app.config['MYSQL_PORT'] = 1101
-app.config['MYSQL_USER'] = 'humin'
-app.config['MYSQL_PASSWORD'] = '5XMjBgPed29s3QD2'
+app.config['MYSQL_HOST'] = '127.0.0.1'
+app.config['MYSQL_PORT'] = 3306
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = '123456'
 app.config['MYSQL_DB'] = 'gaming_report'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
