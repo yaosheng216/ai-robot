@@ -3,7 +3,7 @@
 ### 介绍
 AI Agent使用ChatGPT作为底层大模型，通过LangChain实现个性化AI模型开发
 
-### 服务器端：接口 -> langchain -> openai/ollama
+### 服务器端：接口 -> LangChain -> OpenAI/ollama
 #客户端：电报机器人、微信机器人、website。
 #接口：http,https,websocket
 
@@ -16,7 +16,7 @@ AI Agent使用ChatGPT作为底层大模型，通过LangChain实现个性化AI模
 
 #人性化
 1. 用户输入 -> AI判断一下当前问题的情绪倾向 -> 判断 -> 反馈 -> Agent判断
-2 工具调用： 用户发起请求 -> Agent判断使用哪个工具 -> 带着相关的参数去请求工具 -> 得到观察结果
+2. 工具调用： 用户发起请求 -> Agent判断使用哪个工具 -> 带着相关的参数去请求工具 -> 得到观察结果
 
 ### 截止目前：
 1. Api
